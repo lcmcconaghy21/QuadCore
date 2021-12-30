@@ -1,0 +1,4 @@
+name: QuadCore
+version: 1.0.0_BETA
+main: com.lcmcconaghy.java.quadcore.QuadCore
+authors: [Cuimhnigh]
