@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
 import com.lcmcconaghy.java.quadcore.command.IQuadCommand;
 import com.lcmcconaghy.java.quadcore.command.QuadCommand;
 import com.lcmcconaghy.java.quadcore.engine.Engine;
@@ -130,6 +132,24 @@ public abstract class QuadPlugin extends JavaPlugin
 		if ( this.getEngines() == null ) return false;
 		
 		return this.getEngines().size()>0;
+	}
+	
+	//////////
+	// GSON //
+	//////////
+	
+	protected static GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+	
+	public GsonBuilder getGsonBuilder()
+	{
+		return QuadPlugin.gsonBuilder;
+	}
+	
+	public <T> GsonBuilder registerTypeAdapter(Class<T> arg0, TypeAdapter<T> arg1)
+	{
+		getGsonBuilder().registerTypeAdapter(arg0, arg1);
+		
+		return getGsonBuilder();
 	}
 	
 	////////////
