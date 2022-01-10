@@ -19,6 +19,8 @@ public class FileYaml<T> extends QuadFile<T>
 	public FileYaml(QuadPlugin arg0, String arg1, Class<T> arg2)
 	{
 		super(arg0, arg1, StoreType.YAML);
+		
+		this.sourceClass = arg2;
 	}
 	
 	///////////
@@ -32,7 +34,7 @@ public class FileYaml<T> extends QuadFile<T>
 	{
 		ensureFile();
 		
-		config = new YamlConfiguration();
+		config = YamlConfiguration.loadConfiguration(this.sourceFile);
 		
 		for (Field declaredField : this.sourceClass.getDeclaredFields())
 		{
@@ -64,6 +66,45 @@ public class FileYaml<T> extends QuadFile<T>
 	{
 		config = YamlConfiguration.loadConfiguration(this.sourceFile);
 		
+		T neu = null;
+		try
+		{
+			neu = this.sourceClass.newInstance();
+		}
+		catch (InstantiationException | IllegalAccessException e2)
+		{
+			e2.printStackTrace();
+		}
+		
+		if (!this.sourceFile.exists())
+		{
+			for (Field declaredField : this.sourceClass.getDeclaredFields())
+			{
+				declaredField.setAccessible(true);
+				
+				Object set = null;
+				try
+				{
+					set = declaredField.get(neu);
+				}
+				catch (IllegalArgumentException | IllegalAccessException e)
+				{
+					e.printStackTrace();
+				}
+				
+				config.set(declaredField.getName(), set);
+			}
+		}
+		
+		try
+		{
+			config.save(this.sourceFile);
+		}
+		catch (IOException e1)
+		{
+			e1.printStackTrace();
+		}
+		
 		// Instantiate T object...
 		T ret = null;
 		try
@@ -80,6 +121,9 @@ public class FileYaml<T> extends QuadFile<T>
 		{
 			declaredField.setAccessible(true);
 			// ...set declared field in YAML to that field in the class.
+			if (declaredField.getName() == null || declaredField.getName().isBlank() ||
+				declaredField.getName().isEmpty()) continue;
+			
 			try
 			{
 				declaredField.set(ret, config.get(declaredField.getName()));
