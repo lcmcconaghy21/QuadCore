@@ -11,7 +11,7 @@ public abstract class QuadFile<T> implements StoreFile<T>
 	public QuadFile(QuadPlugin arg0, String arg1, StoreType arg2)
 	{
 		this.plugin = arg0;
-		this.sourceFile = new File(arg0.getDataFolder().getAbsolutePath()+File.separator+arg1+arg2.getExtension());
+		this.sourceFile = new File(arg0.getDataFolder().getAbsolutePath()+File.separator+arg1+"."+arg2.getExtension());
 	}
 	
 	//////////
