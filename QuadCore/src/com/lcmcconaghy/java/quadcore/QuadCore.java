@@ -64,6 +64,15 @@ public class QuadCore extends QuadPlugin
 		return QUtil.list(new CmdQuad());
 	}
 	
+	////////////
+	// ENABLE //
+	////////////
+	
+	public void onStartup()
+	{
+		this.setConfig(new ConfQuad());
+	}
+	
 	///////////
 	// DEBUG //
 	///////////
