@@ -12,6 +12,7 @@ import com.google.gson.TypeAdapter;
 import com.lcmcconaghy.java.quadcore.command.IQuadCommand;
 import com.lcmcconaghy.java.quadcore.command.QuadCommand;
 import com.lcmcconaghy.java.quadcore.engine.Engine;
+import com.lcmcconaghy.java.quadcore.storage.QuadConfig;
 import com.lcmcconaghy.java.quadcore.util.QUtil;
 import com.lcmcconaghy.java.quadcore.util.QuadException;
 
@@ -41,6 +42,7 @@ public abstract class QuadPlugin extends JavaPlugin
 			log("Finished registering engines!");
 		}
 		
+		this.onStartup();
 	}
 	
 	public void onStartup()
@@ -180,4 +182,21 @@ public abstract class QuadPlugin extends JavaPlugin
 		log(Level.INFO, args);
 	}
 	
+	//////////
+	// FILE //
+	//////////
+	
+	protected QuadConfig iConfig;
+	
+	public void setConfig(QuadConfig arg0)
+	{
+		arg0.instantiate();
+		
+		this.iConfig = arg0;
+	}
+	
+	public QuadConfig getIConfig() 
+	{
+		return this.iConfig;
+	}
 }
